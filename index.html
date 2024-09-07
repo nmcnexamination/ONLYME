@@ -6,6 +6,15 @@
     <title>Premium NMCN CBT Login</title>
     <link rel="stylesheet" href="styles.css">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; }
+        .login-container, .loading-state, .footer, .social-buttons { text-align: center; }
+        .loading-state, .iframe-container { display: none; }
+        .iframe-container iframe { width: 100vw; height: 100vh; border: none; }
+        .alert { display: none; padding: 10px; margin: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
 </head>
 <body>
     <!-- Background Animated Images -->
@@ -51,8 +60,10 @@
         <p>Loading form...</p>
     </div>
 
-    <div class="iframe-container" id="formContainer" style="display: none;">
-        <iframe width="640px" height="480px" src="https://forms.office.com/r/j73nBTx6mK" frameborder="0" marginwidth="0" marginheight="0" style="border: none; max-width:100%; max-height:100vh" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen></iframe>
+    <!-- Iframe Container -->
+    <div class="iframe-container" id="formContainer">
+        <!-- The iframe src will be set dynamically -->
+        <iframe id="formIframe" src=""></iframe>
     </div>
 
     <div class="footer">
@@ -66,6 +77,12 @@
     </div>
 
     <script>
+        // Function to generate a unique URL with a cache-busting timestamp
+        function getCacheBustedURL() {
+            const formLink = 'https://forms.office.com/r/9pGfbM0D9Z'; // Update this URL daily
+            return `${formLink}?ts=${new Date().getTime()}`;
+        }
+
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const username = document.getElementById('username').value.trim();
@@ -76,7 +93,7 @@
 
             // Check if username has more than 3 characters and does not contain only numbers
             const validUsername = /^[a-zA-Z]{4,}$/.test(username); // only letters and at least 4 characters
-            const validPasswords = ['Premium90', 'Premium60', 'Premium70', 'Father400', 'Premium20', 'Premium80'];
+            const validPasswords = ['Premium90', 'Premium60', 'Premium70', 'Premiumadmin', 'Premium20', 'Premium80'];
 
             if (!validUsername) {
                 document.getElementById('usernameErrorAlert').style.display = 'block';
@@ -87,10 +104,9 @@
                 document.getElementById('loadingState').style.display = 'block';
                 setTimeout(() => {
                     document.getElementById('loadingState').style.display = 'none';
+                    document.getElementById('formIframe').src = getCacheBustedURL();
                     document.getElementById('formContainer').style.display = 'block';
                     document.getElementById('successAlert').style.display = 'block';
-                    // Redirect using window.location.href
-                    window.location.href = 'https://forms.office.com/r/j73nBTx6mK';
                 }, 2000); // Simulate loading for 2 seconds
             }
         });
