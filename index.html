@@ -107,6 +107,11 @@
                     document.getElementById('formIframe').src = getCacheBustedURL();
                     document.getElementById('formContainer').style.display = 'block';
                     document.getElementById('successAlert').style.display = 'block';
+                    
+                    // Hide the success alert after 3 seconds
+                    setTimeout(() => {
+                        document.getElementById('successAlert').style.display = 'none';
+                    }, 3000);
                 }, 2000); // Simulate loading for 2 seconds
             }
         });
